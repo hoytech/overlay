@@ -12,11 +12,11 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
-import { Profile, SidebarNav, UpgradePlan } from './components';
+import { Profile, ZoneListing } from './components';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
-    width: 240,
+    width: 'calc(50%)',
     [theme.breakpoints.up('lg')]: {
       marginTop: 64,
       height: 'calc(100% - 64px)'
@@ -97,13 +97,10 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
-        <Divider className={classes.divider} />
-        <SidebarNav
+        <ZoneListing
           className={classes.nav}
           pages={pages}
         />
-        <UpgradePlan />
       </div>
     </Drawer>
   );

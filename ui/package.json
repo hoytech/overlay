@@ -1,7 +1,7 @@
 {
-  "name": "react-material-dashboard",
-  "author": "DeviasIO",
-  "email": "contact@devias.io",
+  "name": "overlay-namespaces",
+  "author": "Doug Hoyte, Richard Farr",
+  "email": "",
   "licence": "MIT",
   "version": "0.3.0",
   "private": false,
@@ -27,6 +27,7 @@
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
     "@material-ui/styles": "^4.2.1",
+    "@material-ui/lab": "^4.0.0-alpha",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
     "history": "^4.9.0",

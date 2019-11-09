@@ -1,0 +1,49 @@
+DEPS
+
+liblmdb-dev
+libdocopt-dev
+libssl-dev
+https://github.com:hoytech/uWebSockets
+
+git submodule add https://github.com/hoytech/hoytech-cpp.git
+git submodule add https://github.com/hoytech/lmdbxx.git
+git submodule add https://github.com/taocpp/json.git
+
+
+
+SCHEMA
+
+zoneById:
+  key: <8 byte internal zone id>
+  value: <32 byte hash>
+
+zoneByHash:
+  key: <32 byte hash>
+  value: <8 byte internal zone id>
+
+merkleCache:
+  key: <8 byte internal zone id>
+  value: merkle proof array
+
+zone:
+  key: <8 byte internal zone id>/path/of/key
+  value: canonicalized json payload
+
+
+
+
+MERKLE LAYOUT
+
+leaf hash = keccak256("\x01" + keccak256(key) + keccak256(val))
+node hash = keccak256("\x02" + leftNodeHash + (rightNodeHash || "0x00"x32))
+
+
+
+
+WS API
+
+cmd: add-overlay
+base: 32 byte hash (optional)
+mods: array of updates to make to base (optional)
+
+cmd: get-overlay

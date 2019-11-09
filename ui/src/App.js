@@ -14,6 +14,9 @@ import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
 
+import 'antd/dist/antd.css';
+
+
 const browserHistory = createBrowserHistory();
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {

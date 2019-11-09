@@ -25,12 +25,15 @@ const ViewItem = props => {
 
   let values = [];
   if (displayedValue.displayedValue && displayedValue.displayedValue.vals.length > 0) {
-    values = displayedValue.displayedValue.vals;
+    for (let i = 0; i < displayedValue.displayedValue.vals.length; i++) {
+      let item = displayedValue.displayedValue.vals[i];
+      if (item.type === 'url') {
+        values.push(<li key={i}><a href={item.val}>{item.val}</a></li>);
+      } else {
+        values.push(<li key={i}>{item.val}</li>);
+      }
+    }
   }
-
-  values = values.map((item, i) =>
-    <li key={i}>{item.val}</li>
-  );
 
   return (
     <Box

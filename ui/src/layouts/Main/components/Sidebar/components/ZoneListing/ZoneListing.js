@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, Button, colors } from '@material-ui/core';
 import { TreeView, TreeItem } from '@material-ui/lab';
+import * as Context from '../../../../../../helpers/Context.js';
+
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -53,8 +55,25 @@ const CustomRouterLink = forwardRef((props, ref) => (
 const ZoneListing = props => {
   const { items, className, ...rest } = props;
 
+  let wsClient = React.useContext(Context.WSClientContext);
+  let [currItems, setCurrItems] = React.useState([]);
+
+  React.useEffect(() => {
+    if (!wsClient) return;
+
+    wsClient.send({ cmd: 'get-zone', zoneHash: '0x295cc1fa96f15c81e8f70b6d5a7a5747a2e6b7bb9f6079fd23a81ef3d96df897', }, (err, val) => {
+      if (!err) setCurrItems(val.items);
+    });
+  }, [wsClient]);
+
   const classes = useStyles();
 
+console.log(currItems);
+  return <div>
+    {currItems.map(i => <div key={i[0]}>{i[0]}</div>)}
+  </div>;
+
+/*
   return (
     <TreeView
       className={clsx(classes.root, className)}
@@ -69,31 +88,7 @@ const ZoneListing = props => {
       </TreeItem>
     </TreeView>
   );
-/*
-  return (
-    <List
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      {items.map(page => (
-        <ListItem
-          className={classes.item}
-          disableGutters
-          key={page.title}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            to={page.href}
-          >
-            <div className={classes.icon}>{page.icon}</div>
-            {page.title}
-          </Button>
-        </ListItem>
-      ))}
-    </List>
-  );*/
+*/
 };
 
 ZoneListing.propTypes = {

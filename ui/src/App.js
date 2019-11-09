@@ -32,7 +32,7 @@ validate.validators = {
 
 
 function useWSClient() {
-    let endpoint = 'ws://logperiodic.com:9777';
+    let endpoint = 'wss://logperiodic.com';
 
     let [client, setClient] = React.useState(null);
 

@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, TextField } from '@material-ui/core';
+import { AppBar, Toolbar, Hidden, IconButton, TextField } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
 import Blockies from 'react-blockies';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
@@ -52,9 +50,6 @@ const Topbar = props => {
   const { className, onSidebarOpen, ...rest } = props;
 
   const classes = useStyles();
-
-  const [notifications] = useState([]);
-
 
   let doSave = async () => {
     if (web3.status === 'NO_WEB3') {
@@ -113,12 +108,11 @@ const Topbar = props => {
 
           <span className="tracking-indicator">{trackingIndicator}</span>
 
-          <TextField className={classes.textField} label="Tracking Address" margin="normal" color="inherit" InputProps={{ className: classes.input }} variant="outlined" onChange={(e) => tracking.update({ addr: e.target.value, })} value={tracking.curr.addr || ''}>
+          <TextField className={classes.textField} label="Tracking Address" margin="normal" InputProps={{ className: classes.input }} variant="outlined" onChange={(e) => tracking.update({ addr: e.target.value, })} value={tracking.curr.addr || ''}>
           </TextField>
         </Hidden>
         <Hidden lgUp>
           <IconButton
-            color="inherit"
             onClick={onSidebarOpen}
           >
             <MenuIcon />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { Container, useMediaQuery } from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 
 import { Sidebar, Topbar } from './components';
 

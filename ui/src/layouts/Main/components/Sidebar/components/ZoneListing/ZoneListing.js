@@ -1,11 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { List, ListItem, Button, colors } from '@material-ui/core';
 
 import { Tree } from 'antd';
 
@@ -14,45 +10,7 @@ import * as Context from '../../../../../../helpers/Context.js';
 
 const { TreeNode } = Tree;
 
-
-
-const useStyles = makeStyles(theme => ({
-  root: {},
-  item: {
-    display: 'flex',
-    paddingTop: 0,
-    paddingBottom: 0
-  },
-  button: {
-    color: colors.blueGrey[800],
-    padding: '10px 8px',
-    justifyContent: 'flex-start',
-    textTransform: 'none',
-    letterSpacing: 0,
-    width: '100%',
-    fontWeight: theme.typography.fontWeightMedium
-  },
-  icon: {
-    color: theme.palette.icon,
-    width: 24,
-    height: 24,
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: theme.spacing(1)
-  },
-  active: {
-    color: theme.palette.primary.main,
-    fontWeight: theme.typography.fontWeightMedium,
-    '& $icon': {
-      color: theme.palette.primary.main
-    }
-  }
-}));
-
-
 const ZoneListing = props => {
-  const { items, className, ...rest } = props;
-
   let wsClient = React.useContext(Context.WSClientContext);
   let tracking = React.useContext(Context.CurrentTracking);
   let displayedValue = React.useContext(Context.DisplayedValue);
@@ -67,7 +25,7 @@ const ZoneListing = props => {
     });
   }, [wsClient, tracking.curr.zoneHash]);
 
-  const classes = useStyles();
+  //const classes = useStyles();
 
   let itemTree = convertListToTree(currItems);
   let componentTree = buildComponentTree(itemTree, []);
@@ -126,8 +84,6 @@ function convertListToTree(items) {
 }
 
 function buildComponentTree(tree, path) {
-    let nodeId = path.join('/');
-
     let label = '';
     if (path.length) label = path[path.length - 1];
     if (Object.keys(tree).length) label += '/';
@@ -140,8 +96,7 @@ function buildComponentTree(tree, path) {
 
 
 ZoneListing.propTypes = {
-  className: PropTypes.string,
-  items: PropTypes.array.isRequired
+  className: PropTypes.string
 };
 
 export default ZoneListing;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Container, Button, Input, TextField, Select, MenuItem, InputLabel } from '@material-ui/core';
+import { Container, Button, TextField, Select, MenuItem, InputLabel, Typography } from '@material-ui/core';
 import * as Context from '../../../../helpers/Context.js';
 
 const useStyles = makeStyles(theme => ({
@@ -11,8 +11,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(2),
     margin: theme.spacing(1),
-    display: 'flex',
-    alignItems: 'center'
+    display: 'flex'
+  },
+  type: {
+    marginTop: theme.spacing(2),
+    marginRight: theme.spacing(5),
+    fontSize: '20px'
   },
   path_input: {
     fontSize: '14px',
@@ -47,6 +51,8 @@ const useStyles = makeStyles(theme => ({
 const CreateItem = props => {
   const { className, onCreateItem, style, ...rest } = props;
 
+  let [selectedType, setSelectedType] = React.useState("url");
+
   const classes = useStyles();
 
   let pathRef = React.createRef();
@@ -64,7 +70,7 @@ const CreateItem = props => {
     let value = valueRef.current.value;
 
     if (!path || !type || !value) {
-      throw "Invalid item";
+      throw new Error("Invalid item");
     }
 
     if (!path.startsWith("/")) {
@@ -88,10 +94,10 @@ const CreateItem = props => {
       className={clsx(classes.root, className)}
       style={style}
     >
+      <Typography className={classes.type}>Create item</Typography>
       <TextField
         {...rest}
         className={classes.path_input}
-        disableUnderline
         label="Path"
         inputRef={pathRef}
       />
@@ -101,6 +107,8 @@ const CreateItem = props => {
         className={classes.select}
         labelId="type-label"
         inputRef={typeRef}
+        value={selectedType}
+        onChange={(e) => setSelectedType(e.target.value) }
       >
         <MenuItem value="url">URL</MenuItem>
         <MenuItem value="overlay">Overlay</MenuItem>
@@ -108,7 +116,6 @@ const CreateItem = props => {
       <TextField
         {...rest}
         className={classes.url_input}
-        disableUnderline
         label="Value"
         inputRef={valueRef}
       />

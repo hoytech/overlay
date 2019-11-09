@@ -11,13 +11,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(2),
     margin: theme.spacing(1),
-    display: 'flex',
-    alignItems: 'center'
+    display: 'flex'
   },
 }));
 
 const ViewItem = props => {
-  const { className, onViewItem, style, ...rest } = props;
+  const { className, style } = props;
 
   const classes = useStyles();
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Button, Input, TextField, Select, MenuItem, InputLabel } from '@material-ui/core';
+import * as Context from '../../../../helpers/Context.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,13 +53,35 @@ const CreateItem = props => {
   let typeRef = React.createRef();
   let valueRef = React.createRef();
 
-  function handleCreateItem() {
+  let wsClient = React.useContext(Context.WSClientContext);
+  let zoneHash = React.useContext(Context.CurrentZoneHash);
+
+  const handleCreateItem = () => {
+    if (!wsClient) return;
+
     let path = pathRef.current.value;
     let type = typeRef.current.value;
     let value = valueRef.current.value;
 
-    onCreateItem(path, type, value);
-  }
+    if (!path || !type || !value) {
+      throw "Invalid item";
+    }
+
+    if (!path.startsWith("/")) {
+      path = "/" + path;
+    }
+
+    console.log("Creating new item path=" + path + " type=" + type + " value=" + value);
+
+    let args = { cmd: "add-zone", items: [{key: path, val: {type: type, val: value}}]};
+
+    if (zoneHash.currentZoneHash) args.base = zoneHash.currentZoneHash;
+
+    wsClient.send(args, (err, val) => {
+      console.log(val);
+      zoneHash.setCurrentZoneHash(val.zoneHash);
+    });
+  };
 
   return (
     <Container

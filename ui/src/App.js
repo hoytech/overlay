@@ -28,7 +28,7 @@ validate.validators = {
 
 
 function useWSClient() {
-    let endpoint = 'ws://172.31.212.99:9777';
+    let endpoint = 'ws://172.31.204.110:9777';
 
     let [client, setClient] = React.useState(null);
 

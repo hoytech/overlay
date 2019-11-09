@@ -55,8 +55,10 @@ function useWSClient() {
 export default function() {
     let storage = JSON.parse(window.localStorage.getItem('overlay') || "{}");
 
-    let [currentZoneHash, setCurrentZoneHash] = React.useState(storage.zoneHash);
     let client = useWSClient();
+    let [currentZoneHash, setCurrentZoneHash] = React.useState(storage.zoneHash);
+    let [displayedValue, setDisplayedValue] = React.useState(undefined);
+console.log("DISP",displayedValue);
 
     let wrappedSetCurrentZoneHash = (zoneHash) => {
         window.localStorage.setItem('overlay', JSON.stringify({ zoneHash, }));
@@ -66,6 +68,7 @@ export default function() {
     return (
       <Context.WSClientContext.Provider value={client}>
       <Context.CurrentZoneHash.Provider value={{ currentZoneHash, setCurrentZoneHash: wrappedSetCurrentZoneHash, }}>
+      <Context.DisplayedValue.Provider value={{ displayedValue, setDisplayedValue, }}>
 
         <ThemeProvider theme={theme}>
           <Router history={browserHistory}>
@@ -73,6 +76,7 @@ export default function() {
           </Router>
         </ThemeProvider>
 
+      </Context.DisplayedValue.Provider>
       </Context.CurrentZoneHash.Provider>
       </Context.WSClientContext.Provider>
     );

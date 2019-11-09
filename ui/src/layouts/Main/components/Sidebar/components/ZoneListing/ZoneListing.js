@@ -68,6 +68,7 @@ const ZoneListing = props => {
 
   let wsClient = React.useContext(Context.WSClientContext);
   let zoneHash = React.useContext(Context.CurrentZoneHash);
+  let displayedValue = React.useContext(Context.DisplayedValue);
 
   let [currItems, setCurrItems] = React.useState([]);
 
@@ -84,10 +85,25 @@ const ZoneListing = props => {
   let itemTree = convertListToTree(currItems);
   let componentTree = buildComponentTree(itemTree, []);
 
+  let onSelect = (nodeId) => {
+    let vals = [];
+
+    for (let item of currItems) {
+      if (nodeId[0] === item[0]) vals.push(item[1]);
+    }
+
+    let selection = {
+      key: nodeId[0],
+      vals,
+    };
+
+    displayedValue.setDisplayedValue(selection);
+  };
+
   return (
     <Tree
       defaultExpandedKeys={['/']}
-      onSelect={(nodeId, expanded) => console.log(nodeId, expanded)}
+      onSelect={onSelect}
     >
       {componentTree}
     </Tree>

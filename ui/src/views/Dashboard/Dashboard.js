@@ -18,12 +18,12 @@ const Dashboard = props => {
   let wsClient = React.useContext(Context.WSClientContext);
   let zoneHash = React.useContext(Context.CurrentZoneHash);
 
-  const handleCreateItem = (path, url) => {
+  const handleCreateItem = (path, type, value) => {
     if (!wsClient) return;
 
-    console.log("Creating new item path=" + path + " url=" + url);
+    console.log("Creating new item path=" + path + " type=" + type + " value=" + value);
 
-    let args = { cmd: "add-zone", items: [{key: path, val: {url}}]};
+    let args = { cmd: "add-zone", items: [{key: path, val: {type: value}}]};
     if (zoneHash.currentZoneHash) args.base = zoneHash.currentZoneHash;
 
     wsClient.send(args, (err, val) => {

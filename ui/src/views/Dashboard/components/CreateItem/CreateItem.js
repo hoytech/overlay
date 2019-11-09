@@ -54,7 +54,7 @@ const CreateItem = props => {
   let valueRef = React.createRef();
 
   let wsClient = React.useContext(Context.WSClientContext);
-  let zoneHash = React.useContext(Context.CurrentZoneHash);
+  let tracking = React.useContext(Context.CurrentTracking);
 
   const handleCreateItem = () => {
     if (!wsClient) return;
@@ -75,11 +75,10 @@ const CreateItem = props => {
 
     let args = { cmd: "add-zone", items: [{key: path, val: {type: type, val: value}}]};
 
-    if (zoneHash.currentZoneHash) args.base = zoneHash.currentZoneHash;
+    if (tracking.curr.zoneHash) args.base = tracking.curr.zoneHash;
 
     wsClient.send(args, (err, val) => {
-      console.log(val);
-      zoneHash.setCurrentZoneHash(val.zoneHash);
+      tracking.update({ zoneHash: val.zoneHash, });
     });
   };
 

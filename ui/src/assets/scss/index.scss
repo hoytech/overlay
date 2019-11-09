@@ -22,3 +22,23 @@ a {
 #root {
   height: 100%;
 }
+
+
+.tracking-indicator {
+  font-size: 100%;
+
+  .good {
+    color: green;
+  }
+
+  .alert {
+    color: red;
+  }
+
+  .bar {
+    display: flex;
+    > * {
+      margin-right: 8px;
+    }
+  }
+}

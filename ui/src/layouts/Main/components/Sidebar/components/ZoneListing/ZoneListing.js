@@ -59,18 +59,18 @@ const ZoneListing = props => {
   const { items, className, ...rest } = props;
 
   let wsClient = React.useContext(Context.WSClientContext);
-  let zoneHash = React.useContext(Context.CurrentZoneHash);
+  let tracking = React.useContext(Context.CurrentTracking);
   let displayedValue = React.useContext(Context.DisplayedValue);
 
   let [currItems, setCurrItems] = React.useState([]);
 
   React.useEffect(() => {
-    if (!wsClient || !zoneHash.currentZoneHash) return;
+    if (!wsClient || !tracking.curr.zoneHash) return;
 
-    wsClient.send({ cmd: 'get-zone', zoneHash: zoneHash.currentZoneHash, }, (err, val) => {
+    wsClient.send({ cmd: 'get-zone', zoneHash: tracking.curr.zoneHash, }, (err, val) => {
       if (!err) setCurrItems(val.items);
     });
-  }, [wsClient, zoneHash.currentZoneHash]);
+  }, [wsClient, tracking.curr.zoneHash]);
 
   const classes = useStyles();
 

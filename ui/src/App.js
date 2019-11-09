@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
 
 import WSClient from './helpers/WSClient';
+import useWeb3 from './helpers/useWeb3';
 import { chartjs } from './helpers';
 import * as Context from './helpers/Context.js'; 
 import theme from './theme';
@@ -56,18 +57,19 @@ export default function() {
     let storage = JSON.parse(window.localStorage.getItem('overlay') || "{}");
 
     let client = useWSClient();
-    let [currentZoneHash, setCurrentZoneHash] = React.useState(storage.zoneHash);
+    let web3 = useWeb3({ defaultNetworkId: 5, }); // goerli
+    let [currentTracking, setCurrentTracking] = React.useState(storage);
     let [displayedValue, setDisplayedValue] = React.useState(undefined);
-console.log("DISP",displayedValue);
 
-    let wrappedSetCurrentZoneHash = (zoneHash) => {
-        window.localStorage.setItem('overlay', JSON.stringify({ zoneHash, }));
-        setCurrentZoneHash(zoneHash);
+    let updateTracking = (tracking) => {
+        window.localStorage.setItem('overlay', JSON.stringify(tracking));
+        setCurrentTracking(tracking);
     };
 
     return (
+      <Context.Web3.Provider value={web3}>
       <Context.WSClientContext.Provider value={client}>
-      <Context.CurrentZoneHash.Provider value={{ currentZoneHash, setCurrentZoneHash: wrappedSetCurrentZoneHash, }}>
+      <Context.CurrentTracking.Provider value={{ curr: currentTracking, update: updateTracking, }}>
       <Context.DisplayedValue.Provider value={{ displayedValue, setDisplayedValue, }}>
 
         <ThemeProvider theme={theme}>
@@ -77,7 +79,8 @@ console.log("DISP",displayedValue);
         </ThemeProvider>
 
       </Context.DisplayedValue.Provider>
-      </Context.CurrentZoneHash.Provider>
+      </Context.CurrentTracking.Provider>
       </Context.WSClientContext.Provider>
+      </Context.Web3.Provider>
     );
 };

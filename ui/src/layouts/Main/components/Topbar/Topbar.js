@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     color: 'white',
-    width: 300,
+    width: 400,
+    fontSize: '90%',
   },
   input: {
     color: 'white',

@@ -72,11 +72,11 @@ export default function() {
         console.log("HI",currentTracking);
         if (currentTracking.addr) {
           let abi = [ 'function lookup(address[] addrs) external view returns (bytes32[] memory)', ];
-          let provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
+          let provider = ethers.getDefaultProvider('goerli');
           let contractAddress = '0x7b0343d9EEBEbA4D79bC07D49941998f8b8E1500';
-          let contract = new ethers.Contract(contractAddress, abi, provider.getSigner());
+          let contract = new ethers.Contract(contractAddress, abi, provider);
 
-          let res = await contract.lookup([web3.account.address]);
+          let res = await contract.lookup([currentTracking.addr]);
 
           setCurrentTracking({ addr: currentTracking.addr, zoneHash: res[0], });
         }

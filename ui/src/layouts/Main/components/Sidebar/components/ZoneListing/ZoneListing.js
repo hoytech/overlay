@@ -122,7 +122,7 @@ function convertListToTree(items) {
         }
     };
 
-    for (let item of items) {
+    for (let item of (items || [])) {
         let path = item[0].split('/').filter(i => i !== '');
         setter(tree, path, item[1]);
     }

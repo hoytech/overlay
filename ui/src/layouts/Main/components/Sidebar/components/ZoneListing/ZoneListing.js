@@ -6,8 +6,19 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, Button, colors } from '@material-ui/core';
-import { TreeView, TreeItem } from '@material-ui/lab';
+
+import { Tree } from 'antd';
 import * as Context from '../../../../../../helpers/Context.js';
+
+
+const { TreeNode } = Tree;
+
+
+/*
+import { TreeView, TreeItem } from '@material-ui/lab';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+*/
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,35 +72,67 @@ const ZoneListing = props => {
   React.useEffect(() => {
     if (!wsClient) return;
 
-    wsClient.send({ cmd: 'get-zone', zoneHash: '0x295cc1fa96f15c81e8f70b6d5a7a5747a2e6b7bb9f6079fd23a81ef3d96df897', }, (err, val) => {
+    wsClient.send({ cmd: 'get-zone', zoneHash: '0x064f623974394cf7a1e20647ec5d658dcc44b3d1493f45d7efa9739ae92b53b4', }, (err, val) => {
       if (!err) setCurrItems(val.items);
     });
   }, [wsClient]);
 
   const classes = useStyles();
 
-console.log(currItems);
-  return <div>
-    {currItems.map(i => <div key={i[0]}>{i[0]}</div>)}
-  </div>;
+  let itemTree = convertListToTree(currItems);
+  let componentTree = buildComponentTree(itemTree, []);
 
-/*
   return (
-    <TreeView
-      className={clsx(classes.root, className)}
+    <Tree
+      defaultExpandedKeys={['/']}
+      onSelect={(nodeId, expanded) => console.log(nodeId, expanded)}
     >
-      <TreeItem nodeId="1" label="Cats">
-        <TreeItem nodeId="2" label="Persian" />
-        <TreeItem nodeId="3" label="Tabby" />
-      </TreeItem>
-      <TreeItem nodeId="4" label="Guns">
-        <TreeItem nodeId="5" label="Ruger" />
-        <TreeItem nodeId="6" label="Colt" />
-      </TreeItem>
-    </TreeView>
+      {componentTree}
+    </Tree>
   );
-*/
 };
+
+
+
+function convertListToTree(items) {
+    let tree = {};
+
+    let setter; setter = (t, path, val) => {
+        if (!t[path[0]]) {
+            t[path[0]] = {
+                children: {},
+                vals: [],
+            };
+        }
+
+        if (path.length > 1) {
+            setter(t[path[0]].children, path.slice(1), val);
+        } else {
+            t[path[0]].vals.push(val);
+        }
+    };
+
+    for (let item of items) {
+        let path = item[0].split('/').filter(i => i !== '');
+        setter(tree, path, item[1]);
+    }
+
+    return tree;
+}
+
+function buildComponentTree(tree, path) {
+    let nodeId = path.join('/');
+
+    let label = '';
+    if (path.length) label = path[path.length - 1];
+    if (Object.keys(tree).length) label += '/';
+
+    return <TreeNode key={'/' + path.join('/')} title={label}>
+        {Object.keys(tree).map(k => buildComponentTree(tree[k].children || {}, path.concat(k)))}
+    </TreeNode>;
+}
+
+
 
 ZoneListing.propTypes = {
   className: PropTypes.string,

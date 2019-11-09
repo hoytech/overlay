@@ -31,9 +31,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CreateItem = props => {
-  const { className, style, ...rest } = props;
+  const { className, onCreateItem, style, ...rest } = props;
 
   const classes = useStyles();
+
+  let pathRef = React.createRef();
+  let urlRef = React.createRef();
+
+  function handleCreateItem() {
+    let path = pathRef.current.value;
+    let url = urlRef.current.value;
+
+    onCreateItem(path, url);
+  }
 
   return (
     <Box
@@ -46,16 +56,19 @@ const CreateItem = props => {
         className={classes.path_input}
         disableUnderline
         label="Path"
+        inputRef={pathRef}
       />
       <TextField
         {...rest}
         className={classes.url_input}
         disableUnderline
         label="URL"
+        inputRef={urlRef}
       />
       <Button
         {...rest}
         className={classes.button}
+        onClick={handleCreateItem}
         variant="contained"
       >Create</Button>
     </Box>

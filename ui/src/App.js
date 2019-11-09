@@ -14,6 +14,8 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
+import useInterval from 'react-useinterval';
+import {ethers} from 'ethers';
 
 import 'antd/dist/antd.css';
 
@@ -65,6 +67,20 @@ export default function() {
         window.localStorage.setItem('overlay', JSON.stringify(tracking));
         setCurrentTracking(tracking);
     };
+
+    useInterval(async () => {
+        console.log("HI",currentTracking);
+        if (currentTracking.addr) {
+          let abi = [ 'function lookup(address[] addrs) external view returns (bytes32[] memory)', ];
+          let provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
+          let contractAddress = '0x7b0343d9EEBEbA4D79bC07D49941998f8b8E1500';
+          let contract = new ethers.Contract(contractAddress, abi, provider.getSigner());
+
+          let res = await contract.lookup([web3.account.address]);
+
+          setCurrentTracking({ addr: currentTracking.addr, zoneHash: res[0], });
+        }
+    }, 5000);
 
     return (
       <Context.Web3.Provider value={web3}>

@@ -1,0 +1,9 @@
+[submodule "command/external/hoytech-cpp"]
+	path = command/external/hoytech-cpp
+	url = https://github.com/hoytech/hoytech-cpp.git
+[submodule "command/external/lmdbxx"]
+	path = command/external/lmdbxx
+	url = https://github.com/hoytech/lmdbxx.git
+[submodule "command/external/json"]
+	path = command/external/json
+	url = https://github.com/taocpp/json.git

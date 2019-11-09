@@ -63,13 +63,7 @@ export default function() {
     let [currentTracking, setCurrentTracking] = React.useState(storage);
     let [displayedValue, setDisplayedValue] = React.useState(undefined);
 
-    let updateTracking = (tracking) => {
-        window.localStorage.setItem('overlay', JSON.stringify(tracking));
-        setCurrentTracking(tracking);
-    };
-
-    useInterval(async () => {
-        console.log("HI",currentTracking);
+    let pollAddress = async () => {
         if (currentTracking.addr) {
           let abi = [ 'function lookup(address[] addrs) external view returns (bytes32[] memory)', ];
           let provider = ethers.getDefaultProvider('goerli');
@@ -80,7 +74,18 @@ export default function() {
 
           setCurrentTracking({ addr: currentTracking.addr, zoneHash: res[0], });
         }
-    }, 5000);
+    };
+
+    let updateTracking = (tracking) => {
+        window.localStorage.setItem('overlay', JSON.stringify(tracking));
+        setCurrentTracking(tracking);
+    };
+
+    React.useEffect(() => {
+        pollAddress();
+    }, [currentTracking.addr, currentTracking.zoneHash]);
+
+    useInterval(pollAddress, 5000);
 
     return (
       <Context.Web3.Provider value={web3}>

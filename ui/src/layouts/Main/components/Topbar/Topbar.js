@@ -28,8 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     color: 'white',
-    width: 400,
-    fontSize: '90%',
+    width: 450,
   },
   input: {
     color: 'white',
@@ -82,9 +81,9 @@ const Topbar = props => {
     let loadingStatus;
 
     if (tracking.curr.zoneHash) {
-      loadingStatus = <span className="good"><CloudDoneIcon /></span>;
+      loadingStatus = <span className="good"><CloudDoneIcon fontSize="large" /></span>;
     } else {
-      loadingStatus = <span className="alert"><HourglassEmptyIcon /></span>;
+      loadingStatus = <span className="alert"><HourglassEmptyIcon fontSize="large" /></span>;
     }
 
     trackingIndicator = <div className="bar">{loadingStatus}<Blockies seed={tracking.curr.addr} size={10} scale={3} /></div>;
@@ -114,7 +113,7 @@ const Topbar = props => {
 
           <span className="tracking-indicator">{trackingIndicator}</span>
 
-          <TextField className={classes.textField} label="Track Address" margin="normal" color="inherit" InputProps={{ className: classes.input }} variant="outlined" onChange={(e) => tracking.update({ addr: e.target.value, })} value={tracking.curr.addr || ''}>
+          <TextField className={classes.textField} label="Tracking Address" margin="normal" color="inherit" InputProps={{ className: classes.input }} variant="outlined" onChange={(e) => tracking.update({ addr: e.target.value, })} value={tracking.curr.addr || ''}>
           </TextField>
         </Hidden>
         <Hidden lgUp>

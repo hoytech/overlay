@@ -9,7 +9,7 @@ LDFLAGS  = -flto $(XLDFLAGS)
 
 SRCS     = main.cpp keccak.cpp \
            external/hoytech-cpp/hex.cpp
-CMDSRCS  = cmd_ws.cpp
+CMDSRCS  = cmd_ws.cpp cmd_ls.cpp
 
 BIN      = overlay
 

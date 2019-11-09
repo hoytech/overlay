@@ -9,6 +9,7 @@
 namespace overlay {
 
 void cmd_ws();
+void cmd_ls(const std::vector<std::string> &subArgs);
 
 }
 
@@ -23,6 +24,7 @@ R"(
 
     Commands:
       ws         Run websocket server
+      ls         List zones
 )";
 
 
@@ -34,6 +36,8 @@ int parse_command_line(int argc, char **argv) {
 
     if (command == "ws") {
         overlay::cmd_ws();
+    } else if (command == "ls") {
+        overlay::cmd_ls(args["<args>"].asStringList());
     } else {
         throw overlay::error("unrecognized command");
     }

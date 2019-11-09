@@ -12,6 +12,7 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
+import {ethers} from 'ethers';
 
 import * as Context from '../../../../helpers/Context.js';
 
@@ -35,6 +36,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
+
+
+
+
+
 const Topbar = props => {
   let tracking = React.useContext(Context.CurrentTracking);
   let web3 = React.useContext(Context.Web3);
@@ -54,6 +62,15 @@ const Topbar = props => {
     } else if (web3.status === 'NOT_APPROVED' || web3.status === 'LOCKED') {
       await web3.enable();
     } else if (web3.status === 'READY') {
+      let abi = [ 'function register(bytes32 content)', ];
+      let provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
+      let contractAddress = '0x7b0343d9EEBEbA4D79bC07D49941998f8b8E1500';
+      let contract = new ethers.Contract(contractAddress, abi, provider.getSigner());
+
+      let tx = await contract.register(tracking.curr.zoneHash);
+      console.log("TX", tx);
+      let txResult = await tx.wait();
+      console.log("TXRESULT", txResult);
     }
   };
 

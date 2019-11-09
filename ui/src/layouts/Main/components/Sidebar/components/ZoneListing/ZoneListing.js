@@ -8,17 +8,12 @@ import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, Button, colors } from '@material-ui/core';
 
 import { Tree } from 'antd';
+
 import * as Context from '../../../../../../helpers/Context.js';
 
 
 const { TreeNode } = Tree;
 
-
-/*
-import { TreeView, TreeItem } from '@material-ui/lab';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-*/
 
 
 const useStyles = makeStyles(theme => ({

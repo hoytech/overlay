@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery } from '@material-ui/core';
+import { Container, useMediaQuery } from '@material-ui/core';
 
 import { Sidebar, Topbar } from './components';
 
@@ -51,6 +51,7 @@ const Main = props => {
       })}
     >
       <Topbar onSidebarOpen={handleSidebarOpen} />
+
       <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}
@@ -62,6 +63,7 @@ const Main = props => {
     </div>
   );
 };
+
 
 Main.propTypes = {
   children: PropTypes.node

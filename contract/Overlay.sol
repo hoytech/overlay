@@ -10,7 +10,7 @@ contract Overlay {
         emit LogRegister(msg.sender, content);
     }
 
-    function lookup(address[] memory addrs) public view returns (bytes32[] memory) {
+    function lookup(address[] calldata addrs) external view returns (bytes32[] memory) {
         bytes32[] memory output = new bytes32[](addrs.length);
 
         for (uint i = 0; i < addrs.length; i++) {

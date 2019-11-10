@@ -71,10 +71,10 @@ async function lookupAddresses(addrs) {
 let zoneHashCache = {};
 
 async function getZone(wsClient, zoneHash) {
-    if (zoneHashCache[zoneHash]) return zoneHashCache[zoneHash];
+    if (zoneHashCache[zoneHash]) return zoneHashCache[zoneHash].concat();
     let val = await wsClient.sendAsync({ cmd: 'get-zone', zoneHash, });
     zoneHashCache[zoneHash] = val.items;
-    return zoneHashCache[zoneHash];
+    return zoneHashCache[zoneHash].concat();
 }
 
 

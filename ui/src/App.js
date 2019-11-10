@@ -77,7 +77,6 @@ async function getZoneItems(wsClient, zoneHash) {
     let items = await getZoneItemsAux(wsClient, zoneHash, resolvedAddrs);
 
     items.sort((a, b) => a[0].localeCompare(b[0]));
-    console.log(items);
 
     return items;
 }

@@ -2,6 +2,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Blockies from 'react-blockies';
 
 import { Tree } from 'antd';
 
@@ -78,8 +79,17 @@ function buildComponentTree(tree, path, val, source) {
     if (path.length) label = path[path.length - 1];
     if (Object.keys(tree).length) label += '/';
 
-    let title = <span style={{ color: source ? 'red' : null, }}>
+    let overlay;
+    if (val && val.type === 'overlay') {
+        let matches = val.val.match(/^(0x\w+)(.*)/);
+        if (matches) {
+            overlay = <span style={{ marginLeft: 5, }}><Blockies seed={matches[1]} size={10} scale={2} /></span>;
+        }
+    }
+
+    let title = <span style={{ color: source ? 'purple' : null, display: 'flex', }}>
       {label}
+      {overlay}
     </span>;
 
     return <TreeNode key={'/' + path.join('/')} title={title}>

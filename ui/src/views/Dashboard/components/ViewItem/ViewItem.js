@@ -73,7 +73,7 @@ const ViewItem = props => {
       };
 
       if (source) {
-        source = <Blockies className={classes.blockie} seed={source.addr} size={10} scale={3} />;
+        source = <Blockies className={classes.blockie} seed={source.addr.toLowerCase()} size={10} scale={3} />;
       } else {
         source = <button className={classes.del} onClick={doDelete}>Delete</button>;
       }
@@ -83,7 +83,7 @@ const ViewItem = props => {
       if (item.type === 'url') {
         values.push(<ListItem className={classes.item}><Link href={item.val}><ListItemText className={classes.itemText} primary={item.val} /></Link>{source}</ListItem>);
       } else if (item.type == 'eth_address') {
-        values.push(<ListItem className={classes.item}><Link href={"https://etherscan.io/address/" + item.val}><ListItemText className={classes.itemText} primary={item.val} /><Blockies className={classes.blockie} seed={item.val} size={20} scale={3} /></Link>{source}</ListItem>);
+        values.push(<ListItem className={classes.item}><Link href={"https://etherscan.io/address/" + item.val}><ListItemText className={classes.itemText} primary={item.val} /><Blockies className={classes.blockie.toLowerCase()} seed={item.val} size={20} scale={3} /></Link>{source}</ListItem>);
       } else {
         values.push(<ListItem className={classes.item}><ListItemText className={classes.itemText} primary={item.val}/>{source}</ListItem>);
       }

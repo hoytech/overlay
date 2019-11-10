@@ -146,6 +146,7 @@ export default function() {
     let updateTracking = (tracking) => {
         window.localStorage.setItem('overlay', JSON.stringify(tracking));
         setCurrentTracking(tracking);
+        setZoneData([]);
     };
 
     React.useEffect(() => {

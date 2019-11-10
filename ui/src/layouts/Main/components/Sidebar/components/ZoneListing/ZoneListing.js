@@ -84,7 +84,7 @@ function buildComponentTree(tree, path, val, source) {
     if (val && val.type === 'overlay') {
         let matches = val.val.match(/^(0x\w+)(.*)/);
         if (matches) {
-            overlay = <span style={{ marginLeft: 5, }}><Blockies seed={matches[1]} size={10} scale={2} /></span>;
+            overlay = <span style={{ marginLeft: 5, }}><Blockies seed={matches[1].toLowerCase()} size={10} scale={2} /></span>;
         }
     }
 

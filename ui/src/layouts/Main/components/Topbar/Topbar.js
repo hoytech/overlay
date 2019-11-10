@@ -62,6 +62,8 @@ const Topbar = props => {
       let contractAddress = '0x7b0343d9EEBEbA4D79bC07D49941998f8b8E1500';
       let contract = new ethers.Contract(contractAddress, abi, provider.getSigner());
 
+      tracking.update({ addr: web3.account.address.toLowerCase(), })
+
       let tx = await contract.register(tracking.curr.zoneHash);
       console.log("TX", tx);
       let txResult = await tx.wait();
@@ -81,7 +83,7 @@ const Topbar = props => {
       loadingStatus = <span className="alert"><HourglassEmptyIcon fontSize="large" /></span>;
     }
 
-    trackingIndicator = <div className="bar">{loadingStatus}<Blockies seed={tracking.curr.addr} size={10} scale={3} /></div>;
+    trackingIndicator = <div className="bar">{loadingStatus}<Blockies seed={tracking.curr.addr.toLowerCase()} size={10} scale={3} /></div>;
   } else {
     if (tracking.curr.zoneHash) {
       trackingIndicator = <div className="bar">
@@ -108,7 +110,7 @@ const Topbar = props => {
 
           <span className="tracking-indicator">{trackingIndicator}</span>
 
-          <TextField className={classes.textField} label="Tracking Address" margin="normal" InputProps={{ className: classes.input }} variant="outlined" onChange={(e) => tracking.update({ addr: e.target.value, })} value={tracking.curr.addr || ''}>
+          <TextField className={classes.textField} label="Tracking Address" margin="normal" InputProps={{ className: classes.input }} variant="outlined" onChange={(e) => tracking.update({ addr: e.target.value.toLowerCase(), })} value={tracking.curr.addr || ''}>
           </TextField>
         </Hidden>
         <Hidden lgUp>

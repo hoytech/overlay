@@ -2,20 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Box } from '@material-ui/core';
+import { Box, List, ListItem, ListItemText, Link } from '@material-ui/core';
 import Blockies from 'react-blockies';
 import * as Context from '../../../../helpers/Context.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    borderRadius: '4px',
+    maxWidth: 360,
     alignItems: 'center',
-    padding: theme.spacing(2),
-    margin: theme.spacing(1),
     display: 'flex'
-  },
-  list: {
-    listStyleType: 'none',
   },
   eth_address: {
     lineHeight: '24px',
@@ -26,6 +21,19 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: 'middle',
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(1),
+  },
+  del: {
+    marginLeft: theme.spacing(3),
+  },
+  item: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
+    border: '1px solid gray',
+    borderRadius: '10px',
+  },
+  itemText: {
   }
 }));
 
@@ -37,6 +45,14 @@ const ViewItem = props => {
   let displayedValue = React.useContext(Context.DisplayedValue);
   let wsClient = React.useContext(Context.WSClientContext);
   let tracking = React.useContext(Context.CurrentTracking);
+
+  function generate(element) {
+    return [0, 1, 2].map(value =>
+      React.cloneElement(element, {
+        key: value,
+      }),
+    );
+  }
 
   let values = [];
   if (displayedValue.displayedValue && displayedValue.displayedValue.vals.length > 0) {
@@ -59,15 +75,17 @@ const ViewItem = props => {
       if (source) {
         source = <Blockies className={classes.blockie} seed={source.addr} size={10} scale={3} />;
       } else {
-        source = <button onClick={doDelete}>Delete</button>;
+        source = <button className={classes.del} onClick={doDelete}>Delete</button>;
       }
 
+
+
       if (item.type === 'url') {
-        values.push(<li key={i}><a href={item.val}>{item.val}</a>{source}</li>);
+        values.push(<ListItem className={classes.item}><Link href={item.val}><ListItemText className={classes.itemText} primary={item.val} /></Link>{source}</ListItem>);
       } else if (item.type == 'eth_address') {
-        values.push(<li className={classes.eth_address} key={i}><a href={"https://etherscan.io/address/" + item.val}><Blockies className={classes.blockie} seed={item.val} size={20} scale={3} />{item.val}</a>{source}</li>);
+        values.push(<ListItem className={classes.item}><Link href={"https://etherscan.io/address/" + item.val}><ListItemText className={classes.itemText} primary={item.val} /><Blockies className={classes.blockie} seed={item.val} size={20} scale={3} /></Link>{source}</ListItem>);
       } else {
-        values.push(<li key={i}>{item.val}{source}</li>);
+        values.push(<ListItem className={classes.item}><ListItemText className={classes.itemText} primary={item.val}/>{source}</ListItem>);
       }
     }
   }
@@ -77,9 +95,9 @@ const ViewItem = props => {
       className={clsx(classes.root, className)}
       style={style}
     >
-    <ul className={classes.list}>
+    <List dense={false}>
       {values}
-    </ul>
+    </List>
     </Box>
   );
 };

@@ -94,7 +94,7 @@ class WSClient {
     if (!timeout) timeout = 5000;
 
     let response = await new Promise((resolve, reject) => {
-      let subId; subId = this.send(body, (err, result) => {
+      this.send(body, (err, result) => {
         if (err) reject(err);
         else resolve(result);
       }, undefined, timeout);

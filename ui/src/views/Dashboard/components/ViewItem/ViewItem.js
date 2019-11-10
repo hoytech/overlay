@@ -38,7 +38,9 @@ const ViewItem = props => {
   let values = [];
   if (displayedValue.displayedValue && displayedValue.displayedValue.vals.length > 0) {
     for (let i = 0; i < displayedValue.displayedValue.vals.length; i++) {
-      let item = displayedValue.displayedValue.vals[i];
+      let item = displayedValue.displayedValue.vals[i].val;
+      let source = displayedValue.displayedValue.vals[i].source;
+
       if (item.type === 'url') {
         values.push(<li key={i}><a href={item.val}>{item.val}</a></li>);
       } else if (item.type == 'eth_address') {

@@ -14,27 +14,16 @@ const ZoneListing = props => {
   let wsClient = React.useContext(Context.WSClientContext);
   let tracking = React.useContext(Context.CurrentTracking);
   let displayedValue = React.useContext(Context.DisplayedValue);
+  let zoneData = React.useContext(Context.ZoneData);
 
-  let [currItems, setCurrItems] = React.useState([]);
-
-  React.useEffect(() => {
-    if (!wsClient || !tracking.curr.zoneHash) return;
-
-    wsClient.send({ cmd: 'get-zone', zoneHash: tracking.curr.zoneHash, }, (err, val) => {
-      if (!err) setCurrItems(val.items);
-    });
-  }, [wsClient, tracking.curr.zoneHash]);
-
-  //const classes = useStyles();
-
-  let itemTree = convertListToTree(currItems);
+  let itemTree = convertListToTree(zoneData);
   let componentTree = buildComponentTree(itemTree, []);
 
   let onSelect = (nodeId) => {
     let vals = [];
 
-    for (let item of currItems) {
-      if (nodeId[0] === item[0]) vals.push(item[1]);
+    for (let item of zoneData) {
+      if (nodeId[0] === item[0]) vals.push({ val: item[1], source: item[2], });
     }
 
     let selection = {
@@ -60,36 +49,41 @@ const ZoneListing = props => {
 function convertListToTree(items) {
     let tree = {};
 
-    let setter; setter = (t, path, val) => {
+    let setter; setter = (t, path, val, source) => {
         if (!t[path[0]]) {
             t[path[0]] = {
                 children: {},
-                vals: [],
+                val,
+                source,
             };
         }
 
         if (path.length > 1) {
-            setter(t[path[0]].children, path.slice(1), val);
+            setter(t[path[0]].children, path.slice(1), val, source);
         } else {
-            t[path[0]].vals.push(val);
+            //t[path[0]].vals.push({ val, source, });
         }
     };
 
     for (let item of (items || [])) {
         let path = item[0].split('/').filter(i => i !== '');
-        setter(tree, path, item[1]);
+        setter(tree, path, item[1], item[2]);
     }
 
     return tree;
 }
 
-function buildComponentTree(tree, path) {
+function buildComponentTree(tree, path, val, source) {
     let label = '';
     if (path.length) label = path[path.length - 1];
     if (Object.keys(tree).length) label += '/';
 
-    return <TreeNode key={'/' + path.join('/')} title={label}>
-        {Object.keys(tree).map(k => buildComponentTree(tree[k].children || {}, path.concat(k)))}
+    let title = <span style={{ color: source ? 'red' : null, }}>
+      {label}
+    </span>;
+
+    return <TreeNode key={'/' + path.join('/')} title={title}>
+        {Object.keys(tree).map(k => buildComponentTree(tree[k].children || {}, path.concat(k), tree[k].val, tree[k].source))}
     </TreeNode>;
 }
 

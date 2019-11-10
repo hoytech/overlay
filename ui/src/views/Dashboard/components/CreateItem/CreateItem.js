@@ -94,7 +94,7 @@ const CreateItem = props => {
       className={clsx(classes.root, className)}
       style={style}
     >
-      <Typography className={classes.type}>Create item</Typography>
+      <Typography className={classes.type}>Create new item</Typography>
       <TextField
         {...rest}
         className={classes.path_input}
@@ -112,6 +112,7 @@ const CreateItem = props => {
       >
         <MenuItem value="url">URL</MenuItem>
         <MenuItem value="overlay">Overlay</MenuItem>
+        <MenuItem value="eth_address">Ethereum Address</MenuItem>
       </Select>
       <TextField
         {...rest}

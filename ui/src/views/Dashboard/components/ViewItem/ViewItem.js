@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Box } from '@material-ui/core';
+import Blockies from 'react-blockies';
 import * as Context from '../../../../helpers/Context.js';
 
 const useStyles = makeStyles(theme => ({
@@ -13,6 +14,18 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     display: 'flex'
   },
+  list: {
+    listStyleType: 'none',
+  },
+  eth_address: {
+    lineHeight: '24px',
+    fontSize: '20px',
+
+  },
+  blockie: {
+    verticalAlign: 'middle',
+    marginRight: theme.spacing(1),
+  }
 }));
 
 const ViewItem = props => {
@@ -28,6 +41,8 @@ const ViewItem = props => {
       let item = displayedValue.displayedValue.vals[i];
       if (item.type === 'url') {
         values.push(<li key={i}><a href={item.val}>{item.val}</a></li>);
+      } else if (item.type == 'eth_address') {
+        values.push(<li className={classes.eth_address} key={i}><a href={"https://etherscan.io/address/" + item.val}><Blockies className={classes.blockie} seed={item.val} size={20} scale={3} />{item.val}</a></li>);
       } else {
         values.push(<li key={i}>{item.val}</li>);
       }
@@ -39,7 +54,7 @@ const ViewItem = props => {
       className={clsx(classes.root, className)}
       style={style}
     >
-    <ul>
+    <ul className={classes.list}>
       {values}
     </ul>
     </Box>

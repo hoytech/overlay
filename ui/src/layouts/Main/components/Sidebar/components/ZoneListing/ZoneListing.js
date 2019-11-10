@@ -30,6 +30,7 @@ const ZoneListing = props => {
     let selection = {
       key: nodeId[0],
       vals,
+      nodeId,
     };
 
     displayedValue.setDisplayedValue(selection);

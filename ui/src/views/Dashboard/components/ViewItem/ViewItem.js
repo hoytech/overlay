@@ -35,6 +35,8 @@ const ViewItem = props => {
   const classes = useStyles();
 
   let displayedValue = React.useContext(Context.DisplayedValue);
+  let wsClient = React.useContext(Context.WSClientContext);
+  let tracking = React.useContext(Context.CurrentTracking);
 
   let values = [];
   if (displayedValue.displayedValue && displayedValue.displayedValue.vals.length > 0) {
@@ -42,8 +44,22 @@ const ViewItem = props => {
       let item = displayedValue.displayedValue.vals[i].val;
       let source = displayedValue.displayedValue.vals[i].source;
 
+      let doDelete = async () => {
+        console.log("k = ", displayedValue.displayedValue.key);
+        console.log("v = ", displayedValue.displayedValue.vals[i].val);
+        let args = { cmd: "add-zone", items: [{key: displayedValue.displayedValue.key, val: displayedValue.displayedValue.vals[i].val, del: 1}]};
+
+        if (tracking.curr.zoneHash) args.base = tracking.curr.zoneHash;
+
+        wsClient.send(args, (err, val) => {
+          tracking.update({ zoneHash: val.zoneHash, });
+        });
+      };
+
       if (source) {
         source = <Blockies className={classes.blockie} seed={source.addr} size={10} scale={3} />;
+      } else {
+        source = <button onClick={doDelete}>Delete</button>;
       }
 
       if (item.type === 'url') {

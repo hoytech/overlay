@@ -1,7 +1,9 @@
+import canonicalJsonStringify from 'json-stable-stringify';
+
 const initialReconnectTimeout = 500;
 const reconnectTimeCeiling = 8000;
 
-class WSClient {
+export default class WSClient {
   constructor(opts) {
     this.opts = opts;
 
@@ -69,7 +71,7 @@ class WSClient {
     let id = idOverride || this.nextId++;
     body.id = id;
 
-    let msg = JSON.stringify(body);
+    let msg = canonicalJsonStringify(body);
 
     if (cb) {
       this.cbs[id] = cb;
@@ -122,5 +124,3 @@ class WSClient {
     this.heartBeatInterval = undefined;
   }
 }
-
-module.exports = WSClient;

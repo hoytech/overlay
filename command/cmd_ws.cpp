@@ -126,9 +126,9 @@ class WebsocketServer {
 
                 if (item.find("del")) {
                     env.dbi_zone.del(txn, key, val);
+                } else {
+                    env.dbi_zone.put(txn, key, val);
                 }
-
-                env.dbi_zone.put(txn, key, val);
             }
 
             std::string zoneHash = computeZoneHash(txn, zoneIdStr);

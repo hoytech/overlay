@@ -34,7 +34,7 @@ validate.validators = {
 
 
 function useWSClient() {
-    let endpoint = 'wss://logperiodic.com';
+    let endpoint = 'wss://logperiodic.com/overlay-ws';
 
     let [client, setClient] = React.useState(null);
 

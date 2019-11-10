@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Overlay Zone</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+          <h1>Overlay Zones</h1>
+          <h4>Trendy marketing name TBD...</h4>
+        </section>
+				<section>
+          <h2>Zones</h2>
+          <p>a collection of data and links in a hierarchical tree</p>
+          <p>authoritatively owned and editable by an associated Eth address</p>
+          <p>uniquely identified by a content addressed hash (of the contents of the zone)</p>
+        </section>
+        <section>
+          <h2>Publishing</h2>
+          <p>smart contract associates owned eth address with a zone hash</p>
+          <p>queryable by address to find current zone for a given address</p>
+          <p>updates to zone content will update the associated zone hash</p>
+        </section>
+        <section>
+          <h2>What kind of content?</h2>
+          <p>URLs, images, documents, public keys - basically a generic file system</p>
+          <p>Data is stored off chain using conventional means - file systems, DBs, web servers, S3 whatever</p>
+          <p>in addition you can store links to other zones - what we call an overlay</p>
+        </section>
+        <section>
+          <h2>Overlays</h2>
+          <p>allow you to reference another zone in whole or part at any point in your own zone</p>
+          <p>other zones' data transparently merged into your own, including duplicates</p>
+          <p>crucially ownership of overlayed zones remains with the original zone's owner</p>
+        </section>
+        <section>
+          <h2>Why?</h2>
+          <p>reference other author's content whom you trust or want to follow</p>
+          <p>compose data from other schemas into your own zone with whatever structure you need</p>
+          <p>maintenance and upkeep remain with other authors - their changes immediately visible once published</p>
+        </section>
+        <section>
+          <h2>Applications</h2>
+          <p>the usual directory suspects: domain names, addresses, public keys, CRLs, etc</p>
+          <p>collaborative content aggregation, curated lists, indices</p>
+          <p>materializing disparate sources of truth into a coherent entity</p>
+        </section>
+        <section>
+          <h2>Trust</h2>
+          <p>MERKEL CHAIN stuff goes here</p>
+        </section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>

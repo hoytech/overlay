@@ -57,7 +57,15 @@ async function lookupAddresses(addrs) {
     let provider = ethers.getDefaultProvider('goerli');
     let contractAddress = '0x7b0343d9EEBEbA4D79bC07D49941998f8b8E1500';
     let contract = new ethers.Contract(contractAddress, abi, provider);
-    return await contract.lookup(addrs);
+
+    let ret;
+
+    try {
+        ret = await contract.lookup(addrs);
+    } catch(e) {
+    }
+
+    return ret;
 }
 
 let zoneHashCache = {};
@@ -95,6 +103,7 @@ async function getZoneItemsAux(wsClient, zoneHash, resolvedAddrs) {
 
         if (!resolvedAddrs[addr]) {
            resolvedAddrs[addr] = (await lookupAddresses([addr]))[0];
+           if (!resolvedAddrs[addr]) continue;
         }
 
         let subZone = await getZoneItemsAux(wsClient, resolvedAddrs[addr], resolvedAddrs);
@@ -129,6 +138,7 @@ export default function() {
     let pollTrackingAddress = async () => {
         if (currentTracking.addr) {
           let zoneHashes = await lookupAddresses([currentTracking.addr]);
+          if (!zoneHashes) return;
           setCurrentTracking({ addr: currentTracking.addr, zoneHash: zoneHashes[0], });
         }
     };

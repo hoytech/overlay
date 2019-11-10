@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   blockie: {
     verticalAlign: 'middle',
     marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
   }
 }));
 
@@ -41,12 +42,16 @@ const ViewItem = props => {
       let item = displayedValue.displayedValue.vals[i].val;
       let source = displayedValue.displayedValue.vals[i].source;
 
+      if (source) {
+        source = <Blockies className={classes.blockie} seed={source.addr} size={10} scale={3} />;
+      }
+
       if (item.type === 'url') {
-        values.push(<li key={i}><a href={item.val}>{item.val}</a></li>);
+        values.push(<li key={i}><a href={item.val}>{item.val}</a>{source}</li>);
       } else if (item.type == 'eth_address') {
-        values.push(<li className={classes.eth_address} key={i}><a href={"https://etherscan.io/address/" + item.val}><Blockies className={classes.blockie} seed={item.val} size={20} scale={3} />{item.val}</a></li>);
+        values.push(<li className={classes.eth_address} key={i}><a href={"https://etherscan.io/address/" + item.val}><Blockies className={classes.blockie} seed={item.val} size={20} scale={3} />{item.val}</a>{source}</li>);
       } else {
-        values.push(<li key={i}>{item.val}</li>);
+        values.push(<li key={i}>{item.val}{source}</li>);
       }
     }
   }

@@ -61,8 +61,6 @@ const ViewItem = props => {
       let source = displayedValue.displayedValue.vals[i].source;
 
       let doDelete = async () => {
-        console.log("k = ", displayedValue.displayedValue.key);
-        console.log("v = ", displayedValue.displayedValue.vals[i].val);
         let args = { cmd: "add-zone", items: [{key: displayedValue.displayedValue.key, val: displayedValue.displayedValue.vals[i].val, del: 1}]};
 
         if (tracking.curr.zoneHash) args.base = tracking.curr.zoneHash;
@@ -95,9 +93,10 @@ const ViewItem = props => {
       className={clsx(classes.root, className)}
       style={style}
     >
-    <List dense={false}>
-      {values}
-    </List>
+      <List dense={false}>
+        {displayedValue && displayedValue.displayedValue ? <h2>{displayedValue.displayedValue.key}</h2> : null}
+        {values}
+      </List>
     </Box>
   );
 };

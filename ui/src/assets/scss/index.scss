@@ -42,3 +42,17 @@ a {
     }
   }
 }
+
+
+.item-box {
+  max-width: none !important;
+
+  ul {
+    width: 90%;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

@@ -63,6 +63,7 @@ const CreateItem = props => {
 
   let wsClient = React.useContext(Context.WSClientContext);
   let tracking = React.useContext(Context.CurrentTracking);
+  let displayedValue = React.useContext(Context.DisplayedValue);
 
   const handleCreateItem = () => {
     if (!wsClient) return;
@@ -86,6 +87,7 @@ const CreateItem = props => {
     if (tracking.curr.zoneHash) args.base = tracking.curr.zoneHash;
 
     wsClient.send(args, (err, val) => {
+      displayedValue.setDisplayedValue(null);
       tracking.update({ zoneHash: val.zoneHash, });
     });
   };

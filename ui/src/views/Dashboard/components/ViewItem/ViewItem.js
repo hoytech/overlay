@@ -60,12 +60,13 @@ const ViewItem = props => {
       let item = displayedValue.displayedValue.vals[i].val;
       let source = displayedValue.displayedValue.vals[i].source;
 
-      let doDelete = async () => {
+      let doDelete = () => {
         let args = { cmd: "add-zone", items: [{key: displayedValue.displayedValue.key, val: displayedValue.displayedValue.vals[i].val, del: 1}]};
 
         if (tracking.curr.zoneHash) args.base = tracking.curr.zoneHash;
 
         wsClient.send(args, (err, val) => {
+          displayedValue.setDisplayedValue(null);
           tracking.update({ zoneHash: val.zoneHash, });
         });
       };
@@ -77,21 +78,21 @@ const ViewItem = props => {
       }
 
 
+      let key = `${displayedValue.displayedValue.key}_${i}`;
 
       if (item.type === 'url') {
-        values.push(<ListItem className={classes.item}><Link href={item.val}><ListItemText className={classes.itemText} primary={item.val} /></Link>{source}</ListItem>);
+        values.push(<ListItem key={key} className={classes.item}><div><Link href={item.val}><ListItemText className={classes.itemText} primary={item.val} /></Link><br/>{item.note}</div>{source}</ListItem>);
       } else if (item.type == 'eth_address') {
-        values.push(<ListItem className={classes.item}><Link href={"https://etherscan.io/address/" + item.val}><ListItemText className={classes.itemText} primary={item.val} /><Blockies className={classes.blockie.toLowerCase()} seed={item.val} size={20} scale={3} /></Link>{source}</ListItem>);
+        values.push(<ListItem key={key} className={classes.item}><Link href={"https://etherscan.io/address/" + item.val}><ListItemText className={classes.itemText} primary={item.val} /><Blockies className={classes.blockie.toLowerCase()} seed={item.val} size={20} scale={3} /></Link>{source}</ListItem>);
       } else {
-        values.push(<ListItem className={classes.item}><ListItemText className={classes.itemText} primary={item.val}/>{source}</ListItem>);
+        values.push(<ListItem key={key} className={classes.item}><ListItemText className={classes.itemText} primary={item.val}/>{source}</ListItem>);
       }
     }
   }
 
   return (
     <Box
-      className={clsx(classes.root, className)}
-      style={style}
+      className={clsx(classes.root, className, 'item-box')}
     >
       <List dense={false}>
         {displayedValue && displayedValue.displayedValue ? <h2>{displayedValue.displayedValue.key}</h2> : null}
